@@ -1,0 +1,6 @@
+<div class="d-flex flex-row bg-white justify-content-center py-5 px-4">
+  <div *ngFor="let ball of balls" [ngStyle]="{'background-color': ball.color || '#F0F0F0'}"
+    class="ball rounded-circle mx-2 text-center align-items-center justify-content-center d-flex">
+    <span>{{ball.label}}</span>
+  </div>
+</div>
