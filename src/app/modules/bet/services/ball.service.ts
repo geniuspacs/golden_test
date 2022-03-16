@@ -49,13 +49,44 @@ export class BallService {
     color: '#FCEBED'
   }];
 
-  ballsSelected: Observable<Ball[]> = of(new Array(10).fill({})); // Lista de seleccionados (es un observable)
+  ballsSelected: Ball[] = new Array(10).fill({});
+
+  winnerNumber: Ball;
+
+  emptySelected: boolean = true;
+
+  private ballSelectedSubject: Subject<Ball[]> = new Subject<Ball[]>();
+  ballSelectedObservable: Observable<Ball[]> = this.ballSelectedSubject.asObservable();
+
+  private winnerNumberSubject: Subject<Ball> = new Subject<Ball>();
+  winnerNumberObservable: Observable<Ball> = this.winnerNumberSubject.asObservable();
+
+  private emptySelectedSubject: Subject<boolean> = new Subject<boolean>();
+  emptySelectedObservable: Observable<boolean> = this.emptySelectedSubject.asObservable();
 
   constructor() {
   }
 
-  getSelectedBalls(): Observable<Ball[]> {
-    return this.ballsSelected;
+  addBallsSelected(ball: Ball) {
+    if (!this.ballsSelected.includes(ball)) {
+      const lastSelectedIndex = this.ballsSelected.findIndex(ball => !ball.value);
+      this.ballsSelected[lastSelectedIndex] = ball;
+      this.ballSelectedSubject.next(this.ballsSelected);
+      this.emptySelectedSubject.next(false);
+    }
+  }
+
+  resetBallsSelected() {
+    this.ballsSelected = Array(10).fill({});
+    this.ballSelectedSubject.next(this.ballsSelected);
+    this.emptySelectedSubject.next(true);
+  }
+
+  runLottery() {
+    const numberWinner = Math.floor((Math.random() * 10) + 1);
+    console.log(numberWinner);
+    this.winnerNumber = this.balls[numberWinner - 1];
+    this.winnerNumberSubject.next(this.winnerNumber);
   }
 
 }

@@ -1,14 +1,26 @@
 <div class="py-5 px-4 bg-white">
-  <h5>Numbers</h5>
-  <div class="d-flex flex-row justify-content-center">
-    <div *ngFor="let ball of balls" [ngStyle]="{'background-color': ball.color}"
-      class="ball rounded-circle mx-2 text-center align-items-center justify-content-center d-flex"
-      (click)="selectBall(ball)">
-      <span>{{ball.label}}</span>
+  <div *ngIf="!winnerNumber">
+    <h5>Numbers</h5>
+    <div class="d-flex flex-row justify-content-center">
+      <div *ngFor="let ball of balls" [ngStyle]="{'background-color': ball.color}"
+        class="ball rounded-circle mx-2 text-center align-items-center justify-content-center d-flex"
+        (click)="selectBall(ball)">
+        <span>{{ball.label}}</span>
+      </div>
+    </div>
+
+    <div *ngIf="!isEmptySelected" class="d-flex flex-row justify-content-center mt-3">
+      <a class="text-decoration-none text-center" (click)="clearSelection()">Clear selection</a>
     </div>
   </div>
 
-  <div class="d-flex flex-row justify-content-center mt-3">
-    <a class="text-decoration-none text-center" (click)="clearSelection()">Clear selection</a>
+  <div *ngIf="winnerNumber" class="text-center">
+    <h4>Result</h4>
+    <div class="ball rounded-circle text-center justify-content-center align-items-center d-flex mx-auto my-3"
+      [ngStyle]="{'background-color': winnerNumber.color}">
+      <span>{{winnerNumber.value}}</span>
+    </div>
+    <h4 [ngClass]="{'text-success': isLotteryWinned, 'text-danger': !isLotteryWinned}">{{isLotteryWinned ? 'You win!' :
+      'Sorry! :('}}</h4>
   </div>
 </div>

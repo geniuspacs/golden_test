@@ -4,6 +4,7 @@ import { BallSelectorComponent } from './components/ball-selector/ball-selector.
 import { BetSlipComponent } from './components/bet-slip/bet-slip.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { BetRoutingModule } from './bet-routing.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -11,7 +12,9 @@ import { BetRoutingModule } from './bet-routing.module';
   declarations: [BallSelectorComponent, BetSlipComponent, DashboardComponent],
   imports: [
     CommonModule,
-    BetRoutingModule
+    BetRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class BetModule { }
