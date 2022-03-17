@@ -7,13 +7,13 @@
   </div>
 
   <div class="d-flex flex-row justify-content-center mt-4">
-    <form [formGroup]="form" class="form-inline">
+    <form (ngSubmit)="getReadyToPlay()" [formGroup]="form" class="form-inline">
       <div class="input-group mb-2">
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroupPrepend3">5x</span>
         </div>
         <input type="number" class="form-control" formControlName="amount" required>
-        <button type="submit" class="btn btn-primary">OK</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid || readyToPlay">OK</button>
       </div>
     </form>
   </div>
@@ -23,7 +23,7 @@
   <div class="py-2">
     <span>Total: {{amount | currency: '€':'symbol':'1.2-2':'es'}}</span>
   </div>
-  <button [disabled]="isEmptySelected || !form.valid" class="btn btn-primary btn-block" (click)="runLottery()">
+  <button [disabled]="isEmptySelected || !readyToPlay" class="btn btn-primary btn-block" (click)="runLottery()">
     Place bet
   </button>
 </div>

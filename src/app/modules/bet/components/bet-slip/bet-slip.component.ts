@@ -14,11 +14,13 @@ export class BetSlipComponent implements OnInit, OnDestroy {
   ballSubscription$: Subscription;
   emptySelected$: Subscription;
 
-  balls: Ball[] = new Array(10).fill({});
+  balls: Ball[] = new Array(8).fill({});
 
   isEmptySelected: boolean = true;
 
   form: FormGroup;
+
+  readyToPlay: boolean;
 
   constructor(private ballService: BallService, private fb: FormBuilder) {
   }
@@ -32,6 +34,11 @@ export class BetSlipComponent implements OnInit, OnDestroy {
     });
     this.form = this.fb.group({
       amount: [undefined, [Validators.required, Validators.min(5)]]
+    });
+    this.form.get('amount')?.valueChanges.subscribe(() => {
+      if (this.readyToPlay) {
+        this.readyToPlay = false;
+      }
     });
   }
 
@@ -48,10 +55,16 @@ export class BetSlipComponent implements OnInit, OnDestroy {
     return this.form.get('amount')?.value * 5;
   }
 
+  getReadyToPlay() {
+    if (this.form.valid) {
+      this.readyToPlay = true;
+      this.ballService.setAmount(this.amount);
+    }
+  }
+
   runLottery() {
-
     this.ballService.runLottery();
-
+    this.form.reset();
   }
 
 }

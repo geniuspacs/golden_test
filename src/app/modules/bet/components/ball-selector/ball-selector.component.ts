@@ -12,7 +12,7 @@ export class BallSelectorComponent implements OnInit, OnDestroy {
 
   balls: Ball[] = [];
 
-  ballsSelected: Ball[] = new Array(10).fill({});
+  ballsSelected: Ball[] = new Array(8).fill({});
 
   ballSubscription$: Subscription;
 
@@ -26,6 +26,8 @@ export class BallSelectorComponent implements OnInit, OnDestroy {
 
   isLotteryWinned: boolean = false;
 
+  amount: number;
+
   constructor(private ballService: BallService) { }
 
   ngOnInit(): void {
@@ -37,11 +39,15 @@ export class BallSelectorComponent implements OnInit, OnDestroy {
     this.winnerNumber$ = this.ballService.winnerNumberObservable.subscribe((winnerNumber: Ball) => {
       this.winnerNumber = winnerNumber;
       this.isLotteryWinned = this.ballsSelected.findIndex(ball => ball.value === this.winnerNumber.value) >= 0;
-      console.log(this.isLotteryWinned)
+      this.amount = this.isLotteryWinned ? (this.amount * 1.5) : 0;
     });
 
     this.emptySelected$ = this.ballService.emptySelectedObservable.subscribe((isEmptySelected: boolean) => {
       this.isEmptySelected = isEmptySelected;
+    });
+
+    this.ballService.amountObservable.subscribe((amount) => {
+      this.amount = amount;
     });
   }
 

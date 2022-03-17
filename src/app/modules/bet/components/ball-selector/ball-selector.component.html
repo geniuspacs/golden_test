@@ -22,5 +22,7 @@
     </div>
     <h4 [ngClass]="{'text-success': isLotteryWinned, 'text-danger': !isLotteryWinned}">{{isLotteryWinned ? 'You win!' :
       'Sorry! :('}}</h4>
+
+    <span>{{amount | currency: '€':'symbol':'1.2-2':'es'}}</span>
   </div>
 </div>
