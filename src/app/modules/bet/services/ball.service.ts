@@ -51,12 +51,6 @@ export class BallService {
 
   ballsSelected: Ball[] = new Array(8).fill({});
 
-  winnerNumber: Ball;
-
-  emptySelected: boolean = true;
-
-  amount: number;
-
   private ballSelectedSubject: Subject<Ball[]> = new Subject<Ball[]>();
   ballSelectedObservable: Observable<Ball[]> = this.ballSelectedSubject.asObservable();
 
@@ -88,14 +82,16 @@ export class BallService {
   }
 
   setAmount(amount: number) {
-    this.amount = amount;
-    this.amountSubject.next(this.amount);
+    this.amountSubject.next(amount);
   }
 
   runLottery() {
-    const numberWinner = Math.floor((Math.random() * 10) + 1);
-    this.winnerNumber = this.balls[numberWinner - 1];
-    this.winnerNumberSubject.next(this.winnerNumber);
+    const winnerNumber = this.balls[this.getWinnerNumber() - 1];
+    this.winnerNumberSubject.next(winnerNumber);
+  }
+
+  private getWinnerNumber(): number {
+    return Math.floor((Math.random() * this.balls.length) + 1);
   }
 
 }

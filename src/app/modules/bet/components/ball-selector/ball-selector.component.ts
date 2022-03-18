@@ -20,6 +20,8 @@ export class BallSelectorComponent implements OnInit, OnDestroy {
 
   emptySelected$: Subscription;
 
+  amount$: Subscription;
+
   winnerNumber: Ball;
 
   isEmptySelected: boolean = true;
@@ -46,7 +48,7 @@ export class BallSelectorComponent implements OnInit, OnDestroy {
       this.isEmptySelected = isEmptySelected;
     });
 
-    this.ballService.amountObservable.subscribe((amount) => {
+    this.amount$ = this.ballService.amountObservable.subscribe((amount) => {
       this.amount = amount;
     });
   }
@@ -62,6 +64,10 @@ export class BallSelectorComponent implements OnInit, OnDestroy {
 
     if (this.emptySelected$) {
       this.emptySelected$.unsubscribe();
+    }
+
+    if (this.amount$) {
+      this.amount$.unsubscribe();
     }
   }
 

@@ -20,7 +20,7 @@ export class BetSlipComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
 
-  readyToPlay: boolean;
+  readyToPlay: boolean = false;
 
   constructor(private ballService: BallService, private fb: FormBuilder) {
   }
@@ -33,7 +33,7 @@ export class BetSlipComponent implements OnInit, OnDestroy {
       this.isEmptySelected = isEmptySelected;
     });
     this.form = this.fb.group({
-      amount: [undefined, [Validators.required, Validators.min(5)]]
+      amount: [0, [Validators.required, Validators.min(5)]]
     });
     this.form.get('amount')?.valueChanges.subscribe(() => {
       if (this.readyToPlay) {
